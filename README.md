@@ -403,7 +403,9 @@ Backend Repository: [https://github.com/DohouFawase/nest.js_api](https://github.
 - [TanStack Query](https://tanstack.com/query)
 - African Football Community
 
-## 📚 Related Repositories
+## 📚 Related Repositoriesgit branch -M main
+git remote add origin https://github.com/DohouFawase/football-ecosystem-frontend.git
+
 
 - **Backend API**: [football-ecosystem-backend](https://github.com/DohouFawase/nest.js_api) (NestJS + Prisma)
 - **Mobile App**: Coming soon (React Native)
