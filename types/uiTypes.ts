@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
@@ -193,13 +194,14 @@ export interface TooltipProps {
 // Accordion (FAQ, sections pliables)
 export interface AccordionItem {
   id: string;
-  title: string;
-  content: React.ReactNode;
+  title: ReactNode;   // On remplace 'string' par 'ReactNode'
+  content: ReactNode; // On s'assure que le contenu aussi accepte du JSX
 }
 
 export interface AccordionProps {
   items: AccordionItem[];
-  allowMultiple?: boolean; // Ouvrir plusieurs sections en même temps ou non
+  allowMultiple?: boolean;
+  className?: string; // Ajout de className pour éviter d'autres erreurs TS
 }
 
 // Skeleton (Chargement progressif)
