@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "../ui/Button";
 import { AuthModal } from "@/app/_components/AuthModal";
 
 export const Navbar = () => {
