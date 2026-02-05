@@ -2,6 +2,55 @@ import { League } from "@/types/LeagueTypes";
 
 export const MOCK_LEAGUES: League[] = [
   {
+    "id": "league-calavi-2026",
+    "name": "Coupe des Vacances Calavi 2026",
+    "description": "Tournoi de prestige. Phase de groupes (4 poules de 4) suivie d'une phase à élimination directe.",
+    "format": "tournament" as const,
+    "tier": "regional",
+    "category": "AMATEUR",
+    "startDate": "2026-07-15T09:00:00Z",
+    "endDate": "2026-08-30T18:00:00Z",
+    "maxTeams": 16,
+    "minTeams": 16,
+    "registrationFee": 30000,
+    "totalPrizePool": 750000,
+    "firstPlacePrize": 500000,
+    "secondPlacePrize": 300000,
+    "thirdPlacePrize": 150000,
+    "status": "open_registration" as const,
+    "isPublic": true,
+    "knockoutFormat": "single_elimination",
+    "hasThirdPlaceMatch": true,
+    "_count": {
+      "teams": 8,
+      "participations": 12
+    },
+    "region": {
+      "id": "6a852d53-d123-4712-a40d-74c39c195026",
+      "name": "Atlantique (Calavi)",
+      "country": { "id": "country-bj", "name": "Bénin", "code": "BJ" }
+    },
+    "sport": { "id": "8d8ade51-8a9c-448b-9ed9-d3a91754ace4", "name": "Football" },
+    // Données étendues issues de ton nouveau JSON
+    "prizeDistribution": {
+      "champion": "Trophée + Médailles d'or + 500.000 FCFA",
+      "vice_champion": "Médailles d'argent + 300.000 FCFA",
+      "troisieme": "Médailles de bronze + 150.000 FCFA",
+      "quatrieme": "Ballons de compétition + 50.000 FCFA"
+    },
+    "individualPrizes": {
+      "meilleur_joueur_MVP": 50000,
+      "soulier_d_or_buteur": 50000,
+      "gants_d_or_gardien": 30000,
+      "prix_fair_play": 20000
+    },
+    "rules": {
+      "competition_format": { "groups": 4, "teams_per_group": 4, "qualifiers_per_group": 2 },
+      "discipline": { "yellow_card_fine": 1000, "red_card_fine": 2500, "suspension_rule": "2 jaunes = 1 match" },
+      "match_logistics": { "duration": "90min", "substitution_limit": 5, "extra_time_final_only": true }
+    }
+  },
+  {
     "id": "league-001",
     "name": "Championnat National Sénior 2026",
     "description": "Championnat national de football professionnel pour la saison 2026",
@@ -19,42 +68,10 @@ export const MOCK_LEAGUES: League[] = [
     "thirdPlacePrize": 2000000,
     "status": "open_registration" as const,
     "isPublic": true,
-    "_count": {
-      "teams": 10,
-      "participations": 15
-    },
+    "_count": { "teams": 10, "participations": 15 },
     "region": {
       "id": "region-001",
       "name": "Dakar",
-      "country": { "id": "country-001", "name": "Sénégal", "code": "SN" }
-    },
-    "sport": { "id": "sport-001", "name": "Football" }
-  },
-  {
-    "id": "league-002",
-    "name": "Coupe des Champions U21",
-    "description": "Tournoi à élimination directe pour les équipes de moins de 21 ans",
-    "format": "tournament" as const,
-    "tier": "professional",
-    "category": "U21",
-    "startDate": "2026-04-15T00:00:00Z",
-    "endDate": "2026-06-30T23:59:59Z",
-    "maxTeams": 32,
-    "minTeams": 16,
-    "registrationFee": 250000,
-    "totalPrizePool": 5000000,
-    "firstPlacePrize": 2500000,
-    "secondPlacePrize": 1500000,
-    "thirdPlacePrize": 1000000,
-    "status": "registration_closed" as const,
-    "isPublic": true,
-    "_count": {
-      "teams": 32,
-      "participations": 42
-    },
-    "region": {
-      "id": "region-002",
-      "name": "Thiès",
       "country": { "id": "country-001", "name": "Sénégal", "code": "SN" }
     },
     "sport": { "id": "sport-001", "name": "Football" }
@@ -77,73 +94,12 @@ export const MOCK_LEAGUES: League[] = [
     "thirdPlacePrize": 600000,
     "status": "in_progress" as const,
     "isPublic": true,
-    "_count": {
-      "teams": 12,
-      "participations": 12
-    },
+    "_count": { "teams": 12, "participations": 12 },
     "region": {
       "id": "region-001",
       "name": "Dakar",
       "country": { "id": "country-001", "name": "Sénégal", "code": "SN" }
     },
     "sport": { "id": "sport-002", "name": "Basketball" }
-  },
-  {
-    "id": "league-004",
-    "name": "Tournoi Féminin National",
-    "description": "Tournoi national de football féminin",
-    "format": "tournament" as const,
-    "tier": "national",
-    "category": "women",
-    "startDate": "2026-05-01T00:00:00Z",
-    "endDate": "2026-07-15T23:59:59Z",
-    "maxTeams": 16,
-    "minTeams": 8,
-    "registrationFee": 200000,
-    "totalPrizePool": 4000000,
-    "firstPlacePrize": 2000000,
-    "secondPlacePrize": 1200000,
-    "thirdPlacePrize": 800000,
-    "status": "draft" as const,
-    "isPublic": true,
-    "_count": {
-      "teams": 0,
-      "participations": 3
-    },
-    "region": {
-      "id": "region-003",
-      "name": "Saint-Louis",
-      "country": { "id": "country-001", "name": "Sénégal", "code": "SN" }
-    },
-    "sport": { "id": "sport-001", "name": "Football" }
-  },
-  {
-    "id": "league-005",
-    "name": "Super Ligue Professionnelle",
-    "description": "Élite du football sénégalais - Championnat des meilleurs clubs",
-    "format": "league" as const,
-    "tier": "professional",
-    "category": "senior",
-    "startDate": "2025-09-01T00:00:00Z",
-    "endDate": "2026-05-31T23:59:59Z",
-    "maxTeams": 14,
-    "minTeams": 12,
-    "registrationFee": 750000,
-    "totalPrizePool": 15000000,
-    "firstPlacePrize": 8000000,
-    "secondPlacePrize": 4500000,
-    "thirdPlacePrize": 2500000,
-    "status": "completed" as const,
-    "isPublic": true,
-    "_count": {
-      "teams": 14,
-      "participations": 14
-    },
-    "region": {
-      "id": "region-001",
-      "name": "Dakar",
-      "country": { "id": "country-001", "name": "Sénégal", "code": "SN" }
-    },
-    "sport": { "id": "sport-001", "name": "Football" }
   }
 ];

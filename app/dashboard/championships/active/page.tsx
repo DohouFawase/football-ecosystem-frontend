@@ -20,7 +20,7 @@ import {
   AlertTriangle,
   ChevronLeft,
   Save,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
 import { League, LeagueStatus } from "@/types/LeagueTypes";
 import { MOCK_LEAGUES } from "@/mock/league";
@@ -71,8 +71,8 @@ const Page = () => {
     setIsDeleteModalOpen(true);
   };
 
-const [step, setStep] = useState(1);
-  
+  const [step, setStep] = useState(1);
+
   // État initial basé sur ton JSON
   const [formData, setFormData] = useState({
     name: "Coupe des Vacances Calavi 2026",
@@ -96,23 +96,27 @@ const [step, setStep] = useState(1);
     individualPrizes: { meilleur_joueur_MVP: 0, soulier_d_or_buteur: 0 },
     rules: {
       discipline: { yellow_card_fine: 1000, red_card_fine: 2500 },
-      match_logistics: { duration: "90min", substitution_limit: 5 }
+      match_logistics: { duration: "90min", substitution_limit: 5 },
     },
     knockoutFormat: "single_elimination",
     hasThirdPlaceMatch: true,
-    isPublic: true
+    isPublic: true,
   });
 
-  const nextStep = () => setStep(s => s + 1);
-  const prevStep = () => setStep(s => s - 1)
+  const nextStep = () => setStep((s) => s + 1);
+  const prevStep = () => setStep((s) => s - 1);
 
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-  const { name, value, type } = e.target;
-  setFormData((prev) => ({
-    ...prev,
-    [name]: type === "number" ? parseFloat(value) : value,
-  }));
-};
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "number" ? parseFloat(value) : value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -280,66 +284,81 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          {/* Carte Total Ligues */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100 text-sm font-medium">
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">
                   Total Ligues
                 </p>
-                <p className="text-3xl font-bold mt-1">{leagues.length}</p>
+                <p className="text-3xl font-bold text-slate-900 mt-2">
+                  {leagues.length}
+                </p>
               </div>
-              <Trophy className="w-12 h-12 text-blue-200" />
+              <div className="p-3 bg-blue-50 rounded-2xl">
+                <Trophy className="w-8 h-8 text-blue-500" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
+          {/* Carte En cours */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-emerald-100 text-sm font-medium">En cours</p>
-                <p className="text-3xl font-bold mt-1">
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">
+                  En cours
+                </p>
+                <p className="text-3xl font-bold text-slate-900 mt-2">
                   {leagues.filter((l) => l.status === "in_progress").length}
                 </p>
               </div>
-              <Calendar className="w-12 h-12 text-emerald-200" />
+              <div className="p-3 bg-emerald-50 rounded-2xl">
+                <Calendar className="w-8 h-8 text-emerald-500" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-6 text-white shadow-lg">
+          {/* Carte Inscriptions */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-100 text-sm font-medium">
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">
                   Inscriptions
                 </p>
-                <p className="text-3xl font-bold mt-1">
+                <p className="text-3xl font-bold text-slate-900 mt-2">
                   {
                     leagues.filter((l) => l.status === "open_registration")
                       .length
                   }
                 </p>
               </div>
-              <Users className="w-12 h-12 text-amber-200" />
+              <div className="p-3 bg-amber-50 rounded-2xl">
+                <Users className="w-8 h-8 text-amber-500" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+          {/* Carte Cagnotte */}
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-100 text-sm font-medium">
+                <p className="text-slate-500 text-sm font-medium uppercase tracking-wider">
                   Cagnotte totale
                 </p>
-                <p className="text-3xl font-bold mt-1">
+                <p className="text-3xl font-bold text-slate-900 mt-2">
                   {formatCurrency(
                     leagues.reduce((sum, l) => sum + l.totalPrizePool, 0),
                   )}
                 </p>
               </div>
-              <DollarSign className="w-12 h-12 text-purple-200" />
+              <div className="p-3 bg-purple-50 rounded-2xl">
+                <DollarSign className="w-8 h-8 text-purple-500" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Leagues List */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
@@ -368,12 +387,14 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-start gap-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                      {/* Icône de Ligue */}
+                      <div className="w-16 h-16  rounded-xl flex items-center justify-center text-black shadow-sm shrink-0">
                         <Trophy className="w-8 h-8" />
                       </div>
 
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
+                        {/* En-tête de la carte */}
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
                           <h3 className="text-xl font-bold text-slate-900">
                             {league.name}
                           </h3>
@@ -395,7 +416,8 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                           </p>
                         )}
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                        {/* Grille d'infos (Lieu, Date, Équipes, Budget) */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                           <div className="flex items-center gap-2 text-sm">
                             <MapPin className="w-4 h-4 text-slate-400" />
                             <span className="text-slate-700">
@@ -403,7 +425,6 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                               {league.region?.country.name}
                             </span>
                           </div>
-
                           <div className="flex items-center gap-2 text-sm">
                             <Calendar className="w-4 h-4 text-slate-400" />
                             <span className="text-slate-700">
@@ -411,7 +432,6 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                               {formatDate(league.endDate)}
                             </span>
                           </div>
-
                           <div className="flex items-center gap-2 text-sm">
                             <Users className="w-4 h-4 text-slate-400" />
                             <span className="text-slate-700">
@@ -419,7 +439,6 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                               {league.maxTeams || "∞"} équipes
                             </span>
                           </div>
-
                           <div className="flex items-center gap-2 text-sm">
                             <DollarSign className="w-4 h-4 text-slate-400" />
                             <span className="text-slate-700 font-semibold">
@@ -428,6 +447,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                           </div>
                         </div>
 
+                        {/* Section Récompenses */}
                         {league.totalPrizePool > 0 && (
                           <div className="flex items-center gap-2 text-sm bg-amber-50 border border-amber-200 rounded-lg p-3">
                             <Award className="w-4 h-4 text-amber-600" />
@@ -444,6 +464,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                     </div>
                   </div>
 
+                  {/* Actions de droite */}
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => handleViewDetails(league)}
@@ -465,9 +486,9 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                       <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600" />
                     </button>
                     <button
+                      onClick={() => handleDeleteClick(league)}
                       className="p-2 hover:bg-red-50 rounded-lg transition-colors group"
                       title="Supprimer"
-                      onClick={() => handleDeleteClick(league)}
                     >
                       <Trash2 className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
                     </button>
@@ -501,8 +522,9 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
       >
         {selectedLeague && (
           <div className="space-y-6">
+            {/* --- EN-TÊTE --- */}
             <div className="flex items-center gap-4 border-b pb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-md">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-black shadow-sm">
                 <Trophy className="w-8 h-8" />
               </div>
               <div>
@@ -515,10 +537,14 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                   >
                     {getStatusLabel(selectedLeague.status)}
                   </span>
+                  <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                    {selectedLeague.tier?.toUpperCase()}
+                  </span>
                 </div>
               </div>
             </div>
 
+            {/* --- GRILLE D'INFOS GÉNÉRALES --- */}
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-1">
                 <p className="text-sm text-slate-500 flex items-center gap-2">
@@ -535,7 +561,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
                 </p>
                 <p className="font-medium text-slate-900">
                   {selectedLeague._count?.teams || 0} /{" "}
-                  {selectedLeague.maxTeams} équipes inscrites
+                  {selectedLeague.maxTeams} équipes
                 </p>
               </div>
               <div className="space-y-1">
@@ -549,7 +575,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-slate-500 flex items-center gap-2">
-                  <DollarSign className="w-4 h-4" /> Cagnotte
+                  <DollarSign className="w-4 h-4" /> Cagnotte Totale
                 </p>
                 <p className="font-bold text-emerald-600 text-lg">
                   {formatCurrency(selectedLeague.totalPrizePool)}
@@ -557,9 +583,100 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
               </div>
             </div>
 
+            {/* --- RÉPARTITION DES PRIX (Nouveau) --- */}
+            {selectedLeague.prizeDistribution && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                  <Award className="w-4 h-4 text-amber-500" /> Récompenses
+                  d'Équipe
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="p-3 bg-amber-50 border border-amber-100 rounded-xl">
+                    <p className="text-xs text-amber-700 font-bold uppercase">
+                      Champion
+                    </p>
+                    <p className="text-sm text-amber-900">
+                      {selectedLeague.prizeDistribution.champion}
+                    </p>
+                  </div>
+                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                    <p className="text-xs text-slate-500 font-bold uppercase">
+                      Vice-Champion
+                    </p>
+                    <p className="text-sm text-slate-800">
+                      {selectedLeague.prizeDistribution.vice_champion}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* --- PRIX INDIVIDUELS (Nouveau) --- */}
+            {selectedLeague.individualPrizes && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-slate-700">
+                  Trophées Individuels
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(selectedLeague.individualPrizes).map(
+                    ([key, value]) => (
+                      <div
+                        key={key}
+                        className="px-3 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-100 text-sm"
+                      >
+                        <span className="font-medium">
+                          {key.replace(/_/g, " ")} :
+                        </span>{" "}
+                        {formatCurrency(value as number)}
+                      </div>
+                    ),
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* --- RÈGLES ET LOGISTIQUE (Nouveau) --- */}
+            {selectedLeague.rules && (
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                    <Info className="w-4 h-4" /> Format & Discipline
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-500 italic">Matchs</p>
+                      <p className="text-slate-700">
+                        Durée: {selectedLeague.rules.match_logistics.duration}
+                      </p>
+                      <p className="text-slate-700">
+                        Remplacements:{" "}
+                        {
+                          selectedLeague.rules.match_logistics
+                            .substitution_limit
+                        }
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 italic">Sanctions</p>
+                      <p className="text-slate-700 font-medium text-red-600">
+                        Rouge:{" "}
+                        {formatCurrency(
+                          selectedLeague.rules.discipline.red_card_fine,
+                        )}
+                      </p>
+                      <p className="text-slate-700">
+                        Règle: {selectedLeague.rules.discipline.suspension_rule}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* --- DESCRIPTION --- */}
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-              <h4 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                <Info className="w-4 h-4" /> Description
+              <h4 className="text-sm font-semibold text-slate-700 mb-2">
+                Description
               </h4>
               <p className="text-slate-600 text-sm leading-relaxed">
                 {selectedLeague.description || "Aucune description fournie."}
@@ -620,124 +737,163 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectEle
       </Modal>
 
       <Modal
-      isOpen={isCreateModalOpen} // Utilise l'état que tu as défini plus haut
-  onClose={() => setIsCreateModalOpen(false)} // Utilise le setter de ton useState
-  title={`Créer une Compétition - Étape ${step}/4`}
-  size="lg"
-  footer={
-    <div className="flex justify-between w-full">
-      <button 
-        type="button"
-        onClick={prevStep} 
-        disabled={step === 1}
-        className="flex items-center gap-2 px-4 py-2 text-slate-500 disabled:opacity-0"
+        isOpen={isCreateModalOpen} // Utilise l'état que tu as défini plus haut
+        onClose={() => setIsCreateModalOpen(false)} // Utilise le setter de ton useState
+        title={`Créer une Compétition - Étape ${step}/4`}
+        size="lg"
+        footer={
+          <div className="flex justify-between w-full">
+            <button
+              type="button"
+              onClick={prevStep}
+              disabled={step === 1}
+              className="flex items-center gap-2 px-4 py-2 text-slate-500 disabled:opacity-0"
+            >
+              <ChevronLeft className="w-4 h-4" /> Précédent
+            </button>
+
+            {step < 4 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2"
+              >
+                Suivant <ChevronRight className="w-4 h-4" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSubmit} // Appelle ta fonction de soumission
+                className="bg-emerald-600 text-white px-6 py-2 rounded-lg flex items-center gap-2"
+              >
+                <Save className="w-4 h-4" /> Publier la Ligue
+              </button>
+            )}
+          </div>
+        }
       >
-        <ChevronLeft className="w-4 h-4" /> Précédent
-      </button>
-      
-      {step < 4 ? (
-        <button 
-          type="button"
-          onClick={nextStep} 
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2"
-        >
-          Suivant <ChevronRight className="w-4 h-4" />
-        </button>
-      ) : (
-        <button 
-          type="button"
-          onClick={handleSubmit} // Appelle ta fonction de soumission
-          className="bg-emerald-600 text-white px-6 py-2 rounded-lg flex items-center gap-2"
-        >
-          <Save className="w-4 h-4" /> Publier la Ligue
-        </button>
-      )}
-    </div>
-  }
->
-      
-    
-      <div className="py-2">
-        {/* ÉTAPE 1 : GÉNÉRAL */}
-        {step === 1 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-            <div className="bg-blue-50 p-3 rounded-lg flex gap-3 text-blue-700 mb-4">
-              <Trophy className="w-5 h-5" />
-              <p className="text-sm font-medium">Identité de la compétition</p>
-            </div>
-            <div className="grid grid-cols-1 gap-4">
-               <input 
-                 className="w-full p-3 border rounded-xl" 
-                 placeholder="Nom (ex: Coupe des Vacances...)"
-                 value={formData.name}
-                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-               />
-               <textarea 
-  name="description" // Très important pour handleInputChange
-  className="w-full p-3 border rounded-xl h-24" 
-  placeholder="Description des phases..."
-  value={formData.description}
-  onChange={handleInputChange} // Utilise ta fonction générique
-/>
-            </div>
-          </div>
-        )}
-
-        {/* ÉTAPE 3 : RÉCOMPENSES (La partie riche de ton JSON) */}
-        {step === 3 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 border rounded-xl bg-slate-50">
-                <label className="text-xs font-bold text-slate-500 uppercase">MVP (FCFA)</label>
-                <input type="number" className="w-full mt-1 bg-transparent text-lg font-bold outline-none" placeholder="50000" />
+        <div className="py-2">
+          {/* ÉTAPE 1 : GÉNÉRAL */}
+          {step === 1 && (
+            <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="bg-blue-50 p-3 rounded-lg flex gap-3 text-blue-700 mb-4">
+                <Trophy className="w-5 h-5" />
+                <p className="text-sm font-medium">
+                  Identité de la compétition
+                </p>
               </div>
-              <div className="p-4 border rounded-xl bg-slate-50">
-                <label className="text-xs font-bold text-slate-500 uppercase">Buteur (FCFA)</label>
-                <input type="number" className="w-full mt-1 bg-transparent text-lg font-bold outline-none" placeholder="50000" />
+              <div className="grid grid-cols-1 gap-4">
+                <input
+                  className="w-full p-3 border rounded-xl"
+                  placeholder="Nom (ex: Coupe des Vacances...)"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                />
+                <textarea
+                  name="description" // Très important pour handleInputChange
+                  className="w-full p-3 border rounded-xl h-24"
+                  placeholder="Description des phases..."
+                  value={formData.description}
+                  onChange={handleInputChange} // Utilise ta fonction générique
+                />
               </div>
             </div>
-            
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold flex items-center gap-2"><Award className="w-4 h-4" /> Distribution des prix</h4>
-              <input className="w-full p-2 border rounded-lg text-sm" placeholder="Champion: Trophée + 500.000..." />
-              <input className="w-full p-2 border rounded-lg text-sm" placeholder="Vice-champion: 300.000..." />
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* ÉTAPE 4 : RÈGLES TECHNIQUES (Discipline & Logistique) */}
-        {step === 4 && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2 text-amber-600">
-                  <AlertCircle className="w-4 h-4" /> Amendes Cartons
-                </label>
-                <div className="flex gap-2">
-                  <input className="w-1/2 p-2 border rounded-lg" placeholder="Jaune (1000)" />
-                  <input className="w-1/2 p-2 border rounded-lg" placeholder="Rouge (2500)" />
+          {/* ÉTAPE 3 : RÉCOMPENSES (La partie riche de ton JSON) */}
+          {step === 3 && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 border rounded-xl bg-slate-50">
+                  <label className="text-xs font-bold text-slate-500 uppercase">
+                    MVP (FCFA)
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full mt-1 bg-transparent text-lg font-bold outline-none"
+                    placeholder="50000"
+                  />
+                </div>
+                <div className="p-4 border rounded-xl bg-slate-50">
+                  <label className="text-xs font-bold text-slate-500 uppercase">
+                    Buteur (FCFA)
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full mt-1 bg-transparent text-lg font-bold outline-none"
+                    placeholder="50000"
+                  />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold flex items-center gap-2 text-blue-600">
-                   Remplacements
-                </label>
-                <input type="number" className="w-full p-2 border rounded-lg" placeholder="Max: 5" />
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-bold flex items-center gap-2">
+                  <Award className="w-4 h-4" /> Distribution des prix
+                </h4>
+                <input
+                  className="w-full p-2 border rounded-lg text-sm"
+                  placeholder="Champion: Trophée + 500.000..."
+                />
+                <input
+                  className="w-full p-2 border rounded-lg text-sm"
+                  placeholder="Vice-champion: 300.000..."
+                />
               </div>
             </div>
-            
-            <div className="p-4 border border-dashed rounded-xl">
-              <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 text-center">Priorité en cas d'égalité</h4>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {["Face-à-face", "Diff. Buts", "Attaque"].map(t => (
-                  <span key={t} className="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium border">{t}</span>
-                ))}
+          )}
+
+          {/* ÉTAPE 4 : RÈGLES TECHNIQUES (Discipline & Logistique) */}
+          {step === 4 && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold flex items-center gap-2 text-amber-600">
+                    <AlertCircle className="w-4 h-4" /> Amendes Cartons
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      className="w-1/2 p-2 border rounded-lg"
+                      placeholder="Jaune (1000)"
+                    />
+                    <input
+                      className="w-1/2 p-2 border rounded-lg"
+                      placeholder="Rouge (2500)"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold flex items-center gap-2 text-blue-600">
+                    Remplacements
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full p-2 border rounded-lg"
+                    placeholder="Max: 5"
+                  />
+                </div>
+              </div>
+
+              <div className="p-4 border border-dashed rounded-xl">
+                <h4 className="text-xs font-bold text-slate-400 uppercase mb-3 text-center">
+                  Priorité en cas d'égalité
+                </h4>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {["Face-à-face", "Diff. Buts", "Attaque"].map((t) => (
+                    <span
+                      key={t}
+                      className="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium border"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-    </Modal>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };
