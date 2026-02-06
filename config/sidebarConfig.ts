@@ -283,6 +283,14 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
                         iconName: 'create',
                         svgPath: '/icons/create.svg',
                     },
+
+                     {
+                        id: 32,
+                        title: 'En attente',
+                        path: '/dashboard/championships/pending',
+                        iconName: 'create',
+                        svgPath: '/icons/create.svg',
+                    },
                 ],
             },
             {
