@@ -275,6 +275,7 @@ interface ProtectedContentProps {
   children: React.ReactNode;
 }
 
+
 export function ProtectedContent({
   permission,
   permissions = [],

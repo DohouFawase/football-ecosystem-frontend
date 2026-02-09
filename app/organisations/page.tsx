@@ -11,7 +11,6 @@ const Page = () => {
     return (
         <div >
            <ExploreChampionships />
-           <OrganzationFeaturesSection />
            <FeaturesDeepDive />
            <HowItWorks />
            <FAQSection />
