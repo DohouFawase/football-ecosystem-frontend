@@ -1809,28 +1809,6 @@ const ROLE_DATA = {
   }
 };
 
-// Fonction helper pour cloner les données en profondeur
-// const cloneRoleData = (baseData, title, subtitle) => {
-//   return {
-//     title,
-//     subtitle,
-//     kpis: baseData.kpis.map(kpi => ({
-//       ...kpi,
-//       details: { ...kpi.details },
-//       chart: [...kpi.chart]
-//     })),
-//     performance: {
-//       metrics: [...baseData.performance.metrics],
-//       geographic: baseData.performance.geographic ? [...baseData.performance.geographic] : [],
-//       topTeams: baseData.performance.topTeams ? [...baseData.performance.topTeams] : [],
-//       championshipDist: baseData.performance.championshipDist ? [...baseData.performance.championshipDist] : [],
-//       userSegments: baseData.performance.userSegments ? [...baseData.performance.userSegments] : [],
-//       betHistory: baseData.performance.betHistory ? [...baseData.performance.betHistory] : [],
-//       marketDist: baseData.performance.marketDist ? [...baseData.performance.marketDist] : []
-//     },
-//     activity: [...baseData.activity]
-//   };
-// };
 
 // Ajout des autres rôles avec structure complète
 
@@ -2189,7 +2167,7 @@ const Dashboard = () => {
   
   // Définir le rôle ici - changez cette valeur pour tester différents rôles
   // Options: SUPER_ADMIN, ADMIN, BETTOR, ORGANIZATION_OWNER, TEAM_MANAGER, COACH, PLAYER, MATCH_OPERATOR, AGENT, SCOUT, ANALYST, SUPPORT_AGENT
-  const selectedRole = 'ORGANIZATION_OWNER';
+  const selectedRole = 'TEAM_MANAGER';
   
   const theme = ROLE_THEMES[selectedRole];
   const data = ROLE_DATA[selectedRole];
