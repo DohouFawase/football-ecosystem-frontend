@@ -221,24 +221,6 @@ export const Navbar = () => {
                         {user.email}
                       </p>
                     </div>
-                    <Link
-                      href="/dashboard"
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                    >
-                      <Icons.Dashboard /> Dashboard
-                    </Link>
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                    >
-                      <Icons.User /> My Profile
-                    </Link>
-                    <Link
-                      href="/settings"
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                    >
-                      <Icons.Settings /> Settings
-                    </Link>
                     <button
                       onClick={logout}
                       className="flex items-center gap-3 w-full px-4 py-2 mt-2 text-sm text-red-600 border-t border-gray-50 hover:bg-red-50"
@@ -250,14 +232,11 @@ export const Navbar = () => {
               </div>
             ) : (
               <div className="flex gap-2">
-                <Button 
-                    variant="ghost" 
-                    className="font-bold text-slate-600" 
-                    onClick={() => openAuth('login')}
-                  >
-                    Login
-                  </Button>
-                <Button onClick={login} className="bg-blue-600">
+                <Button
+                  variant="ghost"
+                  className="font-bold text-slate-600 bg-blue-600 hover:bg-slate-900  rounded-full border-none transition-all duration-500 transform hover:-translate-y-1 shadow-md"
+                  onClick={() => openAuth("login")}
+                >
                   Get Started
                 </Button>
               </div>
@@ -308,14 +287,11 @@ export const Navbar = () => {
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <Button 
-                    variant="ghost" 
-                    className="font-bold text-slate-600" 
-                    onClick={() => openAuth('login')}
-                  >
-                    Login
-                  </Button>
-              <Button isFullWidth onClick={login}>
+              <Button
+                variant="ghost"
+                className="font-bold text-slate-600"
+                onClick={() => openAuth("login")}
+              >
                 Get Started Free
               </Button>
             </div>
@@ -323,11 +299,11 @@ export const Navbar = () => {
         </div>
       )}
 
-      <AuthModal 
-              isOpen={isAuthModalOpen} 
-              onClose={() => setIsAuthModalOpen(false)} 
-              initialMode={authMode} 
-            />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authMode}
+      />
     </nav>
   );
 };

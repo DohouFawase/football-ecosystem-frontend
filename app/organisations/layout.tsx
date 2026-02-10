@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Analytics } from "@vercel/analytics/next"
-import { OrgProvider } from "@/context/OrgContext";
+import Navbar from "./_components/shared/organisarionNavbar";
+import Footer from "./_components/shared/organzationFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,10 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <OrgProvider>
-
+            <Navbar />
           {children}
-          </OrgProvider>
+          <Footer />
           <Analytics />
         </AuthProvider>
       </body>
