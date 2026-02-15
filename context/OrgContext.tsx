@@ -3,14 +3,6 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const OrgContext = createContext<any>(undefined);
 
-const generateSlug = (name: string) => {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '') // Enlève les caractères spéciaux
-    .replace(/[\s_-]+/g, '-') // Remplace les espaces et underscores par des tirets
-    .replace(/^-+|-+$/g, ''); // Enlève les tirets au début et à la fin
-};
 export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
   const [organizations, setOrganizations] = useState<any[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -36,7 +28,6 @@ export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
   }, [organizations, isInitialized]);
 
   const addOrganization = (data: any) => {
-    const slug = generateSlug(data.name);
     const newOrg = {
       ...data,
       id: `org_${Date.now()}`, // ID unique basé sur le temps

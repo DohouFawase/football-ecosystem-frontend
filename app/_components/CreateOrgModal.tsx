@@ -1,44 +1,26 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Pour la redirection
 import { Button } from '@/components/ui/Button';
 import { Loader2, Building2, Phone, Mail, Globe, MapPin, ArrowRight, CheckCircle2, Briefcase } from 'lucide-react';
 import { useOrgs } from "@/context/OrgContext";
-
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-// 🔥 FONCTION POUR GÉNÉRER LE SLUG
-const generateSlug = (name: string): string => {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[éèêë]/g, 'e')
-    .replace(/[àâä]/g, 'a')
-    .replace(/[ïî]/g, 'i')
-    .replace(/[ôö]/g, 'o')
-    .replace(/[ùûü]/g, 'u')
-    .replace(/[ç]/g, 'c')
-    .replace(/[^a-z0-9\s-]/g, '') // Supprime les caractères spéciaux
-    .replace(/\s+/g, '-') // Remplace les espaces par des tirets
-    .replace(/-+/g, '-'); // Supprime les tirets multiples
-};
 
 export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { addOrganization } = useOrgs();
+  const { addOrganization } = useOrgs()
   
   const [formData, setFormData] = useState({
     name: '',
-    slug: '', // 🔥 AJOUT DU SLUG
     description: '',
-    industry: 'Football Club',
+    industry: 'Football Club', // Valeur par défaut
     website: '',
     email: '',
     phone: '',
@@ -48,29 +30,26 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
 
   if (!isOpen) return null;
 
-  // 🔥 GÉNÉRATION AUTOMATIQUE DU SLUG QUAND LE NOM CHANGE
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.value;
-    const slug = generateSlug(name);
-    setFormData({...formData, name, slug});
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Fonction pour envoyer les données
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      // 1. Simulation de l'appel API
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Envoie les données avec le slug
+      // --- L'ÉTAPE MANQUANTE EST ICI ---
+      // On envoie les données au contexte AVANT la redirection
       addOrganization(formData); 
-      
+      // ---------------------------------
+
       setIsSuccess(true);
       
-      // 🔥 REDIRECTION VERS L'URL AVEC LE SLUG
+      // 2. Redirection après avoir montré le message de succès
       setTimeout(() => {
         onClose();
-        router.push(`/${formData.slug}`); // Utilise la route [organisateurSlug]
+        router.push(`/organisations`); 
       }, 2000);
 
     } catch (error) {
@@ -79,15 +58,16 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Overlay */}
       <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose} />
       
       <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 transition-all duration-500">
         
         {!isSuccess ? (
           <>
+            {/* Header avec indicateur de progression */}
             <div className="p-10 pb-4">
               <div className="flex justify-between items-center mb-8">
                 <div className={`p-4 rounded-2xl transition-all duration-500 ${step === 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-emerald-500 text-white shadow-lg shadow-emerald-200'}`}>
@@ -118,20 +98,9 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
                         className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-lg" 
                         placeholder="e.g. Generation Foot" 
                         value={formData.name} 
-                        onChange={handleNameChange} // 🔥 UTILISE LA NOUVELLE FONCTION
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
                       />
                     </div>
-
-                    {/* 🔥 PRÉVISUALISATION DU SLUG */}
-                    {formData.slug && (
-                      <div className="px-4 py-3 bg-blue-50 border-2 border-blue-200 rounded-xl">
-                        <p className="text-xs font-bold text-blue-600 mb-1">VOTRE URL SERA :</p>
-                        <p className="font-mono text-sm font-bold text-blue-900">
-                          votresite.com/<span className="text-blue-600">{formData.slug}</span>
-                        </p>
-                      </div>
-                    )}
-
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Industry</label>
@@ -214,6 +183,7 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
             </form>
           </>
         ) : (
+          /* SUCCESS VIEW */
           <div className="p-16 text-center animate-in zoom-in-95 duration-500">
             <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center text-white mx-auto mb-8 shadow-xl shadow-emerald-100 animate-bounce">
               <CheckCircle2 size={48} />
@@ -230,6 +200,7 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
   );
 };
 
+// Petit composant Icône X pour fermer
 const XIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 );
