@@ -547,11 +547,19 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
         links: [
             {
                 id: 1,
-                title: 'Mes Matchs',
+                title: 'MDAschoabrd',
                 path: '/dashboard',
                 iconName: 'my-matches',
                 svgPath: '/icons/my-matches.svg',
             },
+             {
+                id: 1,
+                title: 'Mes Matchs',
+                path: '/my-matches',
+                iconName: 'my-matches',
+                svgPath: '/icons/my-matches.svg',
+            },
+            
             {
                 id: 2,
                 title: 'Match en Direct',
