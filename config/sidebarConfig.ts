@@ -555,7 +555,7 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
              {
                 id: 1,
                 title: 'Mes Matchs',
-                path: '/my-matches',
+                path: '/dashboard/my-matches',
                 iconName: 'my-matches',
                 svgPath: '/icons/my-matches.svg',
             },
