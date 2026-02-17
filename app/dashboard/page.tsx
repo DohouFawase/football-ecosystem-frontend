@@ -2167,7 +2167,7 @@ const Dashboard = () => {
   
   // Définir le rôle ici - changez cette valeur pour tester différents rôles
   // Options: SUPER_ADMIN, ADMIN, BETTOR, ORGANIZATION_OWNER, TEAM_MANAGER, COACH, PLAYER, MATCH_OPERATOR, AGENT, SCOUT, ANALYST, SUPPORT_AGENT
-  const selectedRole = 'MATCH_OPERATOR';
+  const selectedRole = 'TEAM_MANAGER';
   
   const theme = ROLE_THEMES[selectedRole];
   const data = ROLE_DATA[selectedRole];
