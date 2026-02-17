@@ -653,7 +653,7 @@ interface Props {
 }
 
 export default function ChicHeader({ 
-  userRole = 'TEAM_MANAGER',
+  userRole = 'SCOUT',
   userName = 'Jean Dupont',
   userAvatar,
   onLogout,
