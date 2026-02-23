@@ -12,7 +12,7 @@ export default function SideBar() {
     const [openSubMenus, setOpenSubMenus] = useState<number[]>([]);
     const [isOpen, setIsOpen] = useState(false); // État pour le menu mobile
 
-    const currentRoleConfig = SIDEBAR_CONFIG.AGENT; 
+    const currentRoleConfig = SIDEBAR_CONFIG.ANALYST; 
     const sidebarLinks = currentRoleConfig.links;
     const userRole = currentRoleConfig.displayName;
 
