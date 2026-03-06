@@ -120,7 +120,6 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Données envoyées au backend:", formData);
     // Ici ton appel API : await fetch('/api/leagues', { method: 'POST', body: JSON.stringify(formData) })
     setIsCreateModalOpen(false);
   };
