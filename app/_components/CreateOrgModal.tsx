@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from '@/components/ui/Button';
+import { createOrgSchema, CreateOrgInputs } from '@/validations/organsation/orgShema';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,22 +14,30 @@ interface ModalProps {
 export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    legalName: '',
-    registrationNumber: '',
-    email: '',
-    phone: '',
-    address: '',
-    website: '',
+
+  const {
+    register,
+    handleSubmit,
+    trigger, // Pour valider l'étape 1 avant de passer à l'étape 2
+    watch,   // Pour afficher le nom de l'org à la fin
+    formState: { errors, isSubmitting },
+  } = useForm<CreateOrgInputs>({
+    resolver: zodResolver(createOrgSchema),
+    mode: "onChange"
   });
+
+  const orgName = watch("name");
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Fonction pour valider l'étape 1 manuellement
+  const nextStep = async () => {
+    const isStepValid = await trigger(["name", "website", "description"]);
+    if (isStepValid) setStep(2);
+  };
+
+  const onSubmit = (data: CreateOrgInputs) => {
+    console.log("Organisation créée :", data);
     setIsSuccess(true);
   };
 
@@ -39,10 +50,10 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-md" onClick={onClose} />
       
-      <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 transition-all duration-500">
+      <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100">
         
         {!isSuccess ? (
           <>
@@ -65,43 +76,50 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-10 pt-4">
-              <div className="min-h-[320px]">
+            <form onSubmit={handleSubmit(onSubmit)} className="p-10 pt-4">
+              <div className="min-h-80">
                 {step === 1 ? (
                   <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Org Name</label>
-                      <input required className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold text-lg" placeholder="e.g. Dakar Academy" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}/>
+                      <input {...register("name")} className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold text-lg ${errors.name ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="e.g. Dakar Academy"/>
+                      {errors.name && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Website</label>
                       <div className="relative">
                         <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"><Icons.Globe /></div>
-                        <input className="w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold" placeholder="www.your-site.com" value={formData.website} onChange={(e) => setFormData({...formData, website: e.target.value})}/>
+                        <input {...register("website")} className={`w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold ${errors.website ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="https://www.your-site.com"/>
                       </div>
+                      {errors.website && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.website.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mission</label>
-                      <textarea rows={2} className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-medium text-slate-600" placeholder="A brief vision..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})}/>
+                      <textarea {...register("description")} rows={2} className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-medium text-slate-600 ${errors.description ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="A brief vision..."/>
+                      {errors.description && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.description.message}</p>}
                     </div>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-in fade-in slide-in-from-right-8 duration-500">
                     <div className="md:col-span-2 space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Official Email</label>
-                      <input required type="email" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold" placeholder="contact@org.com" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}/>
+                      <input {...register("email")} type="email" className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold ${errors.email ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="contact@org.com"/>
+                      {errors.email && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.email.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone</label>
-                      <input className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold" placeholder="+221..." value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})}/>
+                      <input {...register("phone")} className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold ${errors.phone ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="+221..."/>
+                      {errors.phone && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.phone.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reg. Number</label>
-                      <input className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold" placeholder="ID-00X" value={formData.registrationNumber} onChange={(e) => setFormData({...formData, registrationNumber: e.target.value})}/>
+                      <input {...register("registrationNumber")} className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold ${errors.registrationNumber ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="ID-00X"/>
+                      {errors.registrationNumber && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.registrationNumber.message}</p>}
                     </div>
                     <div className="md:col-span-2 space-y-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Physical Address</label>
-                      <input className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold" placeholder="Street, City, Country" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})}/>
+                      <input {...register("address")} className={`w-full px-6 py-4 rounded-2xl bg-slate-50 border-2 outline-none transition-all font-bold ${errors.address ? 'border-red-500' : 'border-transparent focus:border-blue-600'}`} placeholder="Street, City, Country"/>
+                      {errors.address && <p className="text-red-500 text-[10px] font-bold ml-1">{errors.address.message}</p>}
                     </div>
                   </div>
                 )}
@@ -113,25 +131,25 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
                 )}
                 <Button 
                   type={step === 1 ? "button" : "submit"}
-                  onClick={() => step === 1 && setStep(2)}
+                  disabled={isSubmitting}
+                  onClick={() => step === 1 && nextStep()}
                   className={`flex-1 h-16 rounded-2xl font-black text-lg transition-all active:scale-95 flex items-center justify-center gap-3 ${
                     step === 1 ? 'bg-blue-600 text-white' : 'bg-slate-900 text-white'
                   }`}
                 >
-                  {step === 1 ? <>Continue <Icons.ArrowRight /></> : <>Build My Legacy</>}
+                  {isSubmitting ? "Building..." : step === 1 ? <>Continue <Icons.ArrowRight /></> : <>Build My Legacy</>}
                 </Button>
               </div>
             </form>
           </>
         ) : (
-          /* SUCCESS VIEW */
           <div className="p-16 text-center animate-in zoom-in-95 duration-500">
             <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center text-white mx-auto mb-8 shadow-xl shadow-emerald-100 animate-bounce">
               <Icons.CheckCircle />
             </div>
             <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">Submitted!</h2>
             <p className="text-slate-500 font-medium max-w-xs mx-auto mb-10 leading-relaxed">
-              Your organization <span className="text-slate-900 font-bold">&quot;{formData.name}&quot;</span> is now being reviewed.
+              Your organization <span className="text-slate-900 font-bold">&quot;{orgName}&quot;</span> is now being reviewed.
             </p>
             <Button onClick={onClose} className="w-full h-16 bg-slate-900 text-white rounded-2xl font-bold">Close Portal</Button>
           </div>
