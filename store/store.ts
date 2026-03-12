@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '@/slice/authSlice';
 import orgReducer from '@/slice/orgSlice';
+import shampReducer from '@/slice/shampSlice';
 import { 
   persistStore, 
   persistReducer, 
@@ -17,6 +18,7 @@ import storage from "redux-persist/lib/storage"; // Utilise le localStorage par 
 const rootReducer = combineReducers({
   auth: authReducer,
   org: orgReducer,
+  shamp: shampReducer,
 });
 
 // 2. Configuration de la persistance
