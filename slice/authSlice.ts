@@ -1,26 +1,24 @@
-"use client";
-
 import { LoginUserAction } from "@/actions/auth/loginAction";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface User {
   id: string;
   email: string;
-  name?: string;
+  firstName: string | null;
+  lastName: string | null;
+  createdAt: string;
 }
 
 interface AuthState {
   user: User | null;
-  token: string | null;
-  refreshToken: string | null;
+  apiKey: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  token: null,
-  refreshToken: null,
+  apiKey: null,
   status: "idle",
   error: null,
 };
@@ -28,25 +26,18 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
+reducers: {
     logout: (state) => {
       state.user = null;
-      state.token = null;
-      state.refreshToken = null;
+      state.apiKey = null;
       state.status = "idle";
       state.error = null;
-      
-      // ✅ Remplacement des Cookies par LocalStorage
+
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("app_api_key");
         localStorage.removeItem("user");
-      }
-    },
-    updateToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", action.payload);
+        // ✅ Supprimer le cookie pour le middleware
+        document.cookie = "app_api_key=; path=/; max-age=0";
       }
     },
   },
@@ -58,25 +49,30 @@ export const authSlice = createSlice({
       })
       .addCase(LoginUserAction.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload.user;
-        state.token = action.payload.access_token;
-        state.refreshToken = action.payload.refresh_token;
         state.error = null;
 
-        // ✅ Sauvegarde dans LocalStorage après un login réussi
+        const { user, credentials } = action.payload.data;
+
+        state.user = user;
+        state.apiKey = credentials.apiKey;
+
         if (typeof window !== "undefined") {
-          localStorage.setItem("token", action.payload.access_token);
-          localStorage.setItem("refreshToken", action.payload.refresh_token);
-          localStorage.setItem("user", JSON.stringify(action.payload.user));
+          localStorage.setItem("app_api_key", credentials.apiKey);
+          localStorage.setItem("user", JSON.stringify(user));
+          // ✅ Cookie lisible par le middleware Next.js
+          document.cookie = `app_api_key=${credentials.apiKey}; path=/; max-age=${60 * 60 * 24 * 7}`;
         }
       })
       .addCase(LoginUserAction.rejected, (state, action) => {
         state.status = "failed";
         const payload = action.payload as { message?: string } | undefined;
-        state.error = payload?.message || action.error.message || "Une erreur est survenue";
+        state.error =
+          payload?.message ||
+          action.error.message ||
+          "Une erreur est survenue";
       });
   },
 });
 
-export const { logout, updateToken } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

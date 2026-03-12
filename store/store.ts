@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '@/slice/authSlice';
+import orgReducer from '@/slice/orgSlice';
 import { 
   persistStore, 
   persistReducer, 
@@ -15,6 +16,7 @@ import storage from "redux-persist/lib/storage"; // Utilise le localStorage par 
 // 1. On combine les reducers (utile si tu en ajoutes d'autres plus tard)
 const rootReducer = combineReducers({
   auth: authReducer,
+  org: orgReducer,
 });
 
 // 2. Configuration de la persistance

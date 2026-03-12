@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
-import { loginFormSchema, LoginFormInputs } from "@/validations/auth/loginFormSchema";
-import { registerFormSchema, RegisterFormInputs } from "@/validations/auth/registerFormSchema";
+import { loginFormSchema } from "@/validations/auth/loginFormSchema";
+import { registerFormSchema } from "@/validations/auth/registerFormSchema";
 import { LoginUserAction } from "@/actions/auth/loginAction";
 import { RegisterUserAction } from "@/actions/auth/registerAction"; // Assure-toi de l'avoir créé
 import { AppDispatch } from "@/store/store";
@@ -58,7 +58,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = "login" }: AuthModalP
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-300"
         onClick={onClose}

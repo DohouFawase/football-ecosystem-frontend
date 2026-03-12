@@ -3,6 +3,7 @@ import { z } from "zod";
 export const createOrgSchema = z.object({
   // Étape 1
   name: z.string().min(3, "Le nom doit avoir au moins 3 caractères"),
+  legalName: z.string().min(3, "Le nom doit avoir au moins 3 caractères"),
   website: z.string().url("L'URL est invalide (ex: https://site.com)").or(z.literal("")).optional().nullable(),
   description: z.string().min(10, "La mission doit être plus détaillée"),
   
