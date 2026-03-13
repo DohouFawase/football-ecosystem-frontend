@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Trophy, Download, RefreshCw, MapPin, Clock, Award, Medal, Star } from 'lucide-react';
+import { Trophy, Download, RefreshCw, MapPin, Clock, Award, Medal, Star, Swords, TrendingUp, ChevronRight, Target } from 'lucide-react';
 import { KnockoutMatch, KnockoutStanding } from '@/types/tournament.types';
 
 interface KnockoutViewProps {
@@ -33,7 +33,6 @@ const KnockoutView: React.FC<KnockoutViewProps> = ({
   const calculateKnockoutStandings = useMemo((): KnockoutStanding[] => {
     const teamStats: Record<string, KnockoutStanding> = {};
     
-    // Collecter toutes les équipes
     knockoutBracket.forEach((round) => {
       round.forEach(match => {
         if (match.team1 && match.team1 !== 'BYE' && !teamStats[match.team1]) {
@@ -139,56 +138,75 @@ const KnockoutView: React.FC<KnockoutViewProps> = ({
     alert('Fonctionnalité d\'export PDF à venir !');
   };
 
+  // Design tokens
+  const cardBase = "bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100";
+
   return (
     <div className="space-y-6">
-      {/* Champion Banner */}
+      {/* Champion Banner - Modern Gold */}
       {champion && (
-        <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl shadow-2xl p-8 animate-pulse">
-          <div className="flex flex-col items-center justify-center gap-4">
-            <Trophy className="w-20 h-20 text-white drop-shadow-lg" />
-            <div className="text-center">
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-2 drop-shadow-lg">
-                🏆 CHAMPION 🏆
-              </h2>
-              <p className="text-2xl md:text-3xl font-bold text-white drop-shadow-md">
-                {champion}
-              </p>
+        <div className="bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 rounded-3xl shadow-2xl shadow-amber-200 p-8 md:p-12 relative overflow-hidden animate-[fadeInUp_0.6s_ease-out]">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
+          <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 bg-white/30 rounded-full blur-xl" />
+              <Trophy className="w-16 h-16 md:w-20 md:h-20 text-white drop-shadow-lg relative" />
             </div>
-            <div className="flex gap-3 mt-2">
-              <Star className="w-8 h-8 text-white fill-white" />
-              <Star className="w-8 h-8 text-white fill-white" />
-              <Star className="w-8 h-8 text-white fill-white" />
+            <div className="text-center">
+              <p className="text-white/80 font-semibold tracking-widest uppercase text-sm mb-2">Champion du Tournoi</p>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-2 drop-shadow-sm">
+                {champion}
+              </h2>
+            </div>
+            <div className="flex gap-2">
+              {[...Array(3)].map((_, i) => (
+                <Star key={i} className="w-6 h-6 md:w-8 md:h-8 text-white fill-white animate-pulse" style={{ animationDelay: `${i * 200}ms` }} />
+              ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Header */}
-      <div className="bg-white rounded-2xl shadow-xl p-6">
+      {/* Header - Clean White */}
+      <div className={`${cardBase} p-6 md:p-8`}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800">{tournamentName}</h2>
-            <p className="text-gray-600 mt-1 flex items-center gap-2">
-              <Trophy className="w-5 h-5" />
-              Format Coupe
-              <span>•</span>
-              <MapPin className="w-4 h-4" />
-              {venue || 'Lieux variés'}
-            </p>
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900">{tournamentName}</h2>
+              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200">
+                Coupe
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 text-slate-500">
+              <div className="flex items-center gap-1.5">
+                <Swords className="w-4 h-4" />
+                <span className="text-sm font-medium">Format Élimination Directe</span>
+              </div>
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1.5">
+                <MapPin className="w-4 h-4" />
+                <span className="text-sm">{venue || 'Lieux variés'}</span>
+              </div>
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1.5">
+                <Target className="w-4 h-4" />
+                <span className="text-sm">{knockoutBracket.length} tours</span>
+              </div>
+            </div>
           </div>
           <div className="flex gap-2">
             <button
               onClick={exportToPDF}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all duration-300 flex items-center gap-2 font-medium text-sm border border-slate-200 hover:border-slate-300"
             >
-              <Download className="w-5 h-5" />
+              <Download className="w-4 h-4" />
               Export
             </button>
             <button
               onClick={onReset}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
+              className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl transition-all duration-300 flex items-center gap-2 font-medium text-sm border border-rose-200 hover:border-rose-300"
             >
-              <RefreshCw className="w-5 h-5" />
+              <RefreshCw className="w-4 h-4" />
               Nouveau
             </button>
           </div>
@@ -198,66 +216,87 @@ const KnockoutView: React.FC<KnockoutViewProps> = ({
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Bracket */}
-        <div className="lg:col-span-3 bg-white rounded-2xl shadow-xl p-6">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <Trophy className="w-6 h-6 text-yellow-500" />
-            Arbre de Compétition
-          </h3>
-          <div className="overflow-x-auto">
-            <div className="flex gap-8 pb-4">
+        <div className={`${cardBase} lg:col-span-3 p-6 md:p-8`}>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg">
+              <Swords className="w-5 h-5 text-white" />
+            </div>
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900">Arbre de Compétition</h3>
+          </div>
+          
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-8 min-w-max">
               {knockoutBracket.map((round, roundIndex) => (
-                <div key={roundIndex} className="flex flex-col gap-4 min-w-[300px]">
-                  <h4 className="font-bold text-lg text-center text-gray-700 mb-2">
+                <div key={roundIndex} className="flex flex-col gap-4 w-[280px]">
+                  <h4 className="font-bold text-center text-slate-700 mb-2 bg-slate-100 py-2.5 rounded-xl text-sm uppercase tracking-wider">
                     {round[0]?.roundName}
                   </h4>
                   {round.map((match, matchIndex) => (
                     <div
                       key={match.id}
-                      className={`p-4 rounded-lg border-2 ${
+                      className={`p-4 rounded-xl border-2 transition-all duration-300 ${
                         match.played
-                          ? 'bg-green-50 border-green-300'
+                          ? 'bg-emerald-50 border-emerald-200'
                           : match.team1 && match.team2
-                          ? 'bg-blue-50 border-blue-300'
-                          : 'bg-gray-100 border-gray-300'
+                          ? 'bg-white border-indigo-200 shadow-sm'
+                          : 'bg-slate-50 border-slate-200'
                       }`}
                       style={{ marginTop: roundIndex > 0 ? `${Math.pow(2, roundIndex - 1) * 40}px` : '0' }}
                     >
                       {match.date && (
-                        <div className="text-xs text-gray-600 mb-2 flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {match.dayName} {match.date} • {match.time}
+                        <div className="text-xs text-slate-500 mb-3 flex items-center gap-1.5 bg-slate-50 p-2 rounded-lg">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span className="font-medium">{match.dayName} {match.date} • {match.time}</span>
                         </div>
                       )}
-                      <div className="space-y-2">
+                      
+                      <div className="space-y-3">
+                        {/* Team 1 */}
                         <div className="flex items-center justify-between">
-                          <span className={`font-semibold ${match.winner === match.team1 ? 'text-green-600 flex items-center gap-1' : ''}`}>
-                            {match.team1 || '...'}
-                            {match.winner === match.team1 && <Trophy className="w-4 h-4" />}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {match.winner === match.team1 && (
+                              <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center">
+                                <Trophy className="w-3.5 h-3.5 text-emerald-600" />
+                              </div>
+                            )}
+                            <span className={`font-semibold text-sm ${match.winner === match.team1 ? 'text-emerald-700' : 'text-slate-700'}`}>
+                              {match.team1 || <span className="text-slate-400 italic">...</span>}
+                            </span>
+                          </div>
                           {match.team1 && match.team1 !== 'BYE' && match.team2 && match.team2 !== 'BYE' && (
                             <input
                               type="number"
                               min="0"
                               value={match.score1 ?? ''}
                               onChange={(e) => updateKnockoutScore(roundIndex, matchIndex, e.target.value, match.score2?.toString() ?? '')}
-                              placeholder="0"
-                              className="w-12 px-2 py-1 border-2 border-gray-300 rounded text-center font-bold"
+                              placeholder="-"
+                              className="w-12 h-10 px-2 border-2 border-slate-200 rounded-lg text-center font-bold text-slate-800 focus:border-indigo-500 focus:outline-none transition-colors"
                             />
                           )}
                         </div>
+                        
+                        <div className="h-px bg-slate-200" />
+                        
+                        {/* Team 2 */}
                         <div className="flex items-center justify-between">
-                          <span className={`font-semibold ${match.winner === match.team2 ? 'text-green-600 flex items-center gap-1' : ''}`}>
-                            {match.team2 || '...'}
-                            {match.winner === match.team2 && <Trophy className="w-4 h-4" />}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {match.winner === match.team2 && (
+                              <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center">
+                                <Trophy className="w-3.5 h-3.5 text-emerald-600" />
+                              </div>
+                            )}
+                            <span className={`font-semibold text-sm ${match.winner === match.team2 ? 'text-emerald-700' : 'text-slate-700'}`}>
+                              {match.team2 || <span className="text-slate-400 italic">...</span>}
+                            </span>
+                          </div>
                           {match.team1 && match.team1 !== 'BYE' && match.team2 && match.team2 !== 'BYE' && (
                             <input
                               type="number"
                               min="0"
                               value={match.score2 ?? ''}
                               onChange={(e) => updateKnockoutScore(roundIndex, matchIndex, match.score1?.toString() ?? '', e.target.value)}
-                              placeholder="0"
-                              className="w-12 px-2 py-1 border-2 border-gray-300 rounded text-center font-bold"
+                              placeholder="-"
+                              className="w-12 h-10 px-2 border-2 border-slate-200 rounded-lg text-center font-bold text-slate-800 focus:border-indigo-500 focus:outline-none transition-colors"
                             />
                           )}
                         </div>
@@ -271,42 +310,53 @@ const KnockoutView: React.FC<KnockoutViewProps> = ({
         </div>
 
         {/* Standings */}
-        <div className="bg-white rounded-2xl shadow-xl p-6">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <Award className="w-6 h-6 text-yellow-500" />
-            Classement
-          </h3>
-          <div className="space-y-2 max-h-[600px] overflow-y-auto">
+        <div className={`${cardBase} p-6`}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-indigo-100 rounded-lg">
+              <TrendingUp className="w-5 h-5 text-indigo-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Classement</h3>
+          </div>
+          
+          <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
             {calculateKnockoutStandings.map((team, index) => (
               <div
                 key={team.name}
-                className={`p-3 rounded-lg ${
+                className={`p-3 rounded-xl transition-all duration-300 border-2 ${
                   team.status.includes('Champion')
-                    ? 'bg-yellow-100 border-2 border-yellow-400'
+                    ? 'bg-amber-50 border-amber-300 shadow-sm'
                     : index === 1
-                    ? 'bg-gray-100 border-2 border-gray-400'
+                    ? 'bg-slate-100 border-slate-300'
                     : index === 2
-                    ? 'bg-orange-100 border-2 border-orange-400'
-                    : 'bg-gray-50'
+                    ? 'bg-orange-50 border-orange-300'
+                    : 'bg-white border-slate-200'
                 }`}
               >
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm">{index + 1}.</span>
-                    {team.status.includes('Champion') && <Trophy className="w-5 h-5 text-yellow-600" />}
-                    {index === 1 && <Medal className="w-5 h-5 text-gray-600" />}
-                    {index === 2 && <Medal className="w-5 h-5 text-orange-600" />}
-                    <span className="font-semibold text-sm">{team.name}</span>
+                    <span className={`
+                      w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold
+                      ${index === 0 ? 'bg-amber-100 text-amber-700' :
+                        index === 1 ? 'bg-slate-200 text-slate-700' :
+                        index === 2 ? 'bg-orange-100 text-orange-700' :
+                        'bg-slate-100 text-slate-600'}
+                    `}>
+                      {index + 1}
+                    </span>
+                    {team.status.includes('Champion') && <Trophy className="w-4 h-4 text-amber-500" />}
+                    {index === 1 && <Medal className="w-4 h-4 text-slate-500" />}
+                    {index === 2 && <Medal className="w-4 h-4 text-orange-500" />}
+                    <span className="font-semibold text-sm text-slate-800">{team.name}</span>
                   </div>
                 </div>
-                <div className="text-xs text-gray-700 font-semibold ml-5">
+                
+                <div className="text-xs font-semibold text-slate-600 ml-8 mb-1">
                   {team.status}
                 </div>
-                <div className="text-xs text-gray-600 mt-1 ml-5">
-                  J: {team.played} | V: {team.won} | D: {team.lost}
-                </div>
-                <div className="text-xs text-gray-600 ml-5">
-                  Buts: {team.goalsFor}-{team.goalsAgainst} ({team.goalDifference > 0 ? '+' : ''}{team.goalDifference})
+                
+                <div className="text-xs text-slate-500 ml-8 grid grid-cols-2 gap-1">
+                  <span>J: {team.played} | V: {team.won} | D: {team.lost}</span>
+                  <span className="text-right">Diff: {team.goalDifference > 0 ? '+' : ''}{team.goalDifference}</span>
                 </div>
               </div>
             ))}
