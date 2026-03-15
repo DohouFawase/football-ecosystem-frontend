@@ -18,15 +18,11 @@ export default function SideBar() {
     const { user } = useSelector((state: RootState) => state.auth);
 
     const [openSubMenus, setOpenSubMenus] = useState<number[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // État pour le menu mobile
 
-    // ✅ Récupérer la config selon le rôle réel de l'API
-    const roleConfig = user?.role
-        ? getSidebarConfig(user.role)
-        : getSidebarConfig('ORGANIZATION_OWNER'); // fallback
-
-    const sidebarLinks = roleConfig?.links ?? [];
-    const userRole = roleConfig?.displayName ?? 'Utilisateur';
+    const currentRoleConfig = SIDEBAR_CONFIG.SUPPORT_AGENT; 
+    const sidebarLinks = currentRoleConfig.links;
+    const userRole = currentRoleConfig.displayName;
 
     // Nom affiché depuis Redux
     const displayName = user?.firstName

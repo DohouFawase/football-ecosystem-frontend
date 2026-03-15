@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
+    "cookie": "^1.1.1",
     "lucide-react": "^0.563.0",
     "motion": "^12.29.2",
     "next": "16.1.6",
@@ -24,11 +25,13 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-redux": "^9.2.0",
+    "recharts": "^3.8.0",
     "redux-persist": "^6.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

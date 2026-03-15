@@ -209,6 +209,8 @@ const Page = () => {
       league.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === "all" || league.status === filterStatus;
     const matchesFormat = filterFormat === "all" || league.format === filterFormat;
+    const matchesStatus = filterStatus === "all" || league.status === filterStatus;
+    const matchesFormat = filterFormat === "all" || league.format === filterFormat;
     return matchesSearch && matchesStatus && matchesFormat;
   });
 

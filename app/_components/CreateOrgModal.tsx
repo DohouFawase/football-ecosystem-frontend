@@ -9,14 +9,32 @@ import { AppDispatch } from "@/store/store";
 import { RegisterUserOrganization } from "@/actions/organization/registeOrganization";
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { Briefcase, Building2, CheckCircle2 } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+// 🔥 FONCTION POUR GÉNÉRER LE SLUG
+const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[éèêë]/g, 'e')
+    .replace(/[àâä]/g, 'a')
+    .replace(/[ïî]/g, 'i')
+    .replace(/[ôö]/g, 'o')
+    .replace(/[ùûü]/g, 'u')
+    .replace(/[ç]/g, 'c')
+    .replace(/[^a-z0-9\s-]/g, '') // Supprime les caractères spéciaux
+    .replace(/\s+/g, '-') // Remplace les espaces par des tirets
+    .replace(/-+/g, '-'); // Supprime les tirets multiples
+};
+
 export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter()
@@ -70,15 +88,15 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
             <div className="p-10 pb-4">
               <div className="flex justify-between items-center mb-8">
                 <div className={`p-4 rounded-2xl transition-all duration-500 ${step === 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-emerald-500 text-white shadow-lg shadow-emerald-200'}`}>
-                  {step === 1 ? <Icons.Building /> : <Icons.Contact />}
+                  {step === 1 ? <Building2 size={24} /> : <Briefcase size={24} />}
                 </div>
-                <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-300">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-300 transition-colors">
+                  <XIcon />
                 </button>
               </div>
 
               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-none">
-                {step === 1 ? "Identity" : "Contact & Legal"}
+                {step === 1 ? "Identity & Vision" : "Legal & Contact"}
               </h2>
               <div className="flex gap-1.5 mt-4">
                 <div className={`h-1.5 rounded-full transition-all duration-500 ${step === 1 ? 'w-10 bg-blue-600' : 'w-4 bg-slate-100'}`} />
@@ -155,7 +173,7 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
               </div>
 
               <div className="mt-10 flex gap-4">
-                {step === 2 && (
+                {step === 2 && !isLoading && (
                   <Button variant="ghost" type="button" className="h-16 px-8 font-bold text-slate-400" onClick={() => setStep(1)}>Back</Button>
                 )}
                 <Button
@@ -174,9 +192,9 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
         ) : (
           <div className="p-16 text-center animate-in zoom-in-95 duration-500">
             <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center text-white mx-auto mb-8 shadow-xl shadow-emerald-100 animate-bounce">
-              <Icons.CheckCircle />
+              <CheckCircle2 size={48} />
             </div>
-            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">Submitted!</h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">Organization Created!</h2>
             <p className="text-slate-500 font-medium max-w-xs mx-auto mb-10 leading-relaxed">
               Your organization <span className="text-slate-900 font-bold">&quot;{orgName}&quot;</span> is now being reviewed.
             </p>
@@ -192,3 +210,7 @@ export const CreateOrgModal = ({ isOpen, onClose }: ModalProps) => {
     </div>
   );
 };
+
+const XIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+);

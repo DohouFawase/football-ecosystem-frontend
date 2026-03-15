@@ -1,16 +1,16 @@
 "use client";
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
+  id?: string;
   name: string;
   email: string;
-  avatar?: string;
 }
 
 interface AuthContextType {
   isLoggedIn: boolean;
   user: User | null;
-  login: () => void;
+  login: (userData: User) => void; // On accepte maintenant des données
   logout: () => void;
 }
 
@@ -20,19 +20,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  const login = () => {
+  // Fonction de connexion/inscription
+  const login = (userData: User) => {
     setIsLoggedIn(true);
-    // Simulation de données récupérées après connexion
-    setUser({ 
-      name: "Samuel Eto'o", 
-      email: "samuel@football.af" 
-    });
+    setUser(userData);
+    // Optionnel: Sauvegarder dans le localStorage pour rester connecté au rafraîchissement
+    localStorage.setItem('user_session', JSON.stringify(userData));
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
+    localStorage.removeItem('user_session');
   };
+
+  // Récupérer la session au chargement de la page
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user_session');
+    if (savedUser) {
+      setIsLoggedIn(true);
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>

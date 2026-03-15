@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "../ui/Button";
 import { AuthModal } from "@/app/_components/AuthModal";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -214,6 +215,11 @@ export const Navbar = () => {
         </div>
       )}
 
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authMode}
+      />
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
