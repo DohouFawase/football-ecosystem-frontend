@@ -24,7 +24,7 @@ type UserRole =
   | 'SUPER_ADMIN' 
   | 'ADMIN' 
   | 'ORGANIZATION_OWNER' 
-  | 'TEAM_MANAGER' 
+  | 'MANAGER' 
   | 'COACH' 
   | 'PLAYER' 
   | 'BETTOR' 
@@ -59,7 +59,7 @@ const roleConfig: Record<UserRole, NotificationConfig> = {
   SUPER_ADMIN: { icon: Crown, color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200", label: "Admin" },
   ADMIN: { icon: Shield, color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200", label: "Admin" },
   ORGANIZATION_OWNER: { icon: Building2, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200", label: "Organisateur" },
-  TEAM_MANAGER: { icon: Users, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Manager" },
+  MANAGER: { icon: Users, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Manager" },
   COACH: { icon: Target, color: "text-cyan-600", bg: "bg-cyan-50", border: "border-cyan-200", label: "Coach" },
   PLAYER: { icon: Star, color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-200", label: "Joueur" },
   BETTOR: { icon: Wallet, color: "text-green-600", bg: "bg-green-50", border: "border-green-200", label: "Parieur" },
@@ -228,7 +228,7 @@ const mockNotifications: Record<UserRole, Notification[]> = {
     },
   ],
 
-  TEAM_MANAGER: [
+  MANAGER: [
     { 
       id: '1', 
       type: 'info', 

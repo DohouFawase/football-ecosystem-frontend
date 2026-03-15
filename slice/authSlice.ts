@@ -1,3 +1,4 @@
+// slice/authSlice.ts
 import { LoginUserAction } from "@/actions/auth/loginAction";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -6,6 +7,7 @@ interface User {
   email: string;
   firstName: string | null;
   lastName: string | null;
+  role: string; // ✅ AJOUTÉ
   createdAt: string;
 }
 
@@ -26,17 +28,15 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-reducers: {
+  reducers: {
     logout: (state) => {
       state.user = null;
       state.apiKey = null;
       state.status = "idle";
       state.error = null;
-
       if (typeof window !== "undefined") {
         localStorage.removeItem("app_api_key");
         localStorage.removeItem("user");
-        // ✅ Supprimer le cookie pour le middleware
         document.cookie = "app_api_key=; path=/; max-age=0";
       }
     },
@@ -50,16 +50,13 @@ reducers: {
       .addCase(LoginUserAction.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.error = null;
-
         const { user, credentials } = action.payload.data;
-
+        // ✅ user contient déjà role depuis l'API
         state.user = user;
         state.apiKey = credentials.apiKey;
-
         if (typeof window !== "undefined") {
           localStorage.setItem("app_api_key", credentials.apiKey);
           localStorage.setItem("user", JSON.stringify(user));
-          // ✅ Cookie lisible par le middleware Next.js
           document.cookie = `app_api_key=${credentials.apiKey}; path=/; max-age=${60 * 60 * 24 * 7}`;
         }
       })
@@ -67,9 +64,7 @@ reducers: {
         state.status = "failed";
         const payload = action.payload as { message?: string } | undefined;
         state.error =
-          payload?.message ||
-          action.error.message ||
-          "Une erreur est survenue";
+          payload?.message || action.error.message || "Une erreur est survenue";
       });
   },
 });

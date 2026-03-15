@@ -4,6 +4,7 @@ import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import SideBar from "@/components/ui/sidebar/SideBar";
 import Header from "@/components/ui/sidebar/Header";
+import DashboardHeaderWrapper from "@/components/ui/sidebar/DashboardHeaderWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +43,7 @@ export default function RootLayout({
 
             {/* MAIN WRAPPER */}
             <div className="flex-1 flex flex-col min-w-0 relative">
-              <Header />
+              <DashboardHeaderWrapper />
 
               {/* ZONE DE CONTENU DYNAMIQUE */}
               <main className="flex-1 overflow-y-auto px-4 md:px-8 pb-12 custom-scrollbar">

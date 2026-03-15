@@ -25,7 +25,7 @@ const ROLE_THEMES = {
     gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
     colors: { primary: '#F59E0B', secondary: '#F97316', accent: '#EF4444', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' }
   },
-  TEAM_MANAGER: {
+  MANAGER: {
     name: 'Manager',
     gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
     colors: { primary: '#06B6D4', secondary: '#0EA5E9', accent: '#3B82F6', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' }
@@ -661,7 +661,7 @@ const ROLE_DATA = {
     ]
   },
 
-  TEAM_MANAGER: {
+  MANAGER: {
     title: 'Gestion d\'Équipe',
     subtitle: 'Performance & Management',
     kpis: [
@@ -2166,7 +2166,7 @@ const Dashboard = () => {
   const [mounted, setMounted] = useState(false);
   
   // Définir le rôle ici - changez cette valeur pour tester différents rôles
-  // Options: SUPER_ADMIN, ADMIN, BETTOR, ORGANIZATION_OWNER, TEAM_MANAGER, COACH, PLAYER, MATCH_OPERATOR, AGENT, SCOUT, ANALYST, SUPPORT_AGENT
+  // Options: SUPER_ADMIN, ADMIN, BETTOR, ORGANIZATION_OWNER, MANAGER, COACH, PLAYER, MATCH_OPERATOR, AGENT, SCOUT, ANALYST, SUPPORT_AGENT
   const selectedRole = 'SUPPORT_AGENTg';
   
   const theme = ROLE_THEMES[selectedRole];
