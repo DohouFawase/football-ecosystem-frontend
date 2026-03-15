@@ -15,7 +15,7 @@ export default function Header() {
         switch (role) {
             case 'SUPER_ADMIN': return "from-amber-500 to-orange-600 shadow-orange-500/20";
             case 'ORGANIZATION_OWNER': return "from-blue-500 to-indigo-600 shadow-blue-500/20";
-            case 'TEAM_MANAGER': return "from-green-500 to-emerald-600 shadow-green-500/20";
+            case 'MANAGER': return "from-green-500 to-emerald-600 shadow-green-500/20";
             default: return "from-slate-700 to-slate-800 shadow-slate-500/20";
         }
     };

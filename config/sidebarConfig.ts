@@ -332,9 +332,9 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
         ],
     },
 
-    // ==================== TEAM_MANAGER ====================
-    TEAM_MANAGER: {
-        role: 'TEAM_MANAGER',
+    // ==================== MANAGER ====================
+    MANAGER: {
+        role: 'MANAGER',
         displayName: 'Manager d\'Équipe',
         links: [
             {
