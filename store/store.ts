@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '@/slice/authSlice';
 import orgReducer from '@/slice/orgSlice';
 import shampReducer from '@/slice/shampSlice';
+import regisShampReducer from '@/slice/registrationSlice';
 import { 
   persistStore, 
   persistReducer, 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   org: orgReducer,
   shamp: shampReducer,
+  registration: regisShampReducer,
 });
 
 // 2. Configuration de la persistance

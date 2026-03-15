@@ -286,8 +286,8 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
 
                      {
                         id: 32,
-                        title: 'En attente',
-                        path: '/dashboard/championships/pending',
+                        title: 'En tant que participant',
+                        path: '/dashboard/championships/participant',
                         iconName: 'create',
                         svgPath: '/icons/create.svg',
                     },
@@ -295,8 +295,8 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
             },
             {
                 id: 4,
-                title: 'Équipes',
-                path: '/dashboard/teams',
+                title: 'Équipes Participant',
+                path: '/dashboard/teams_participants',
                 iconName: 'teams',
                 svgPath: '/icons/teams.svg',
                 badge: 3, // Inscriptions en attente
