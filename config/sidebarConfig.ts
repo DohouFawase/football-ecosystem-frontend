@@ -384,8 +384,8 @@ export const SIDEBAR_CONFIG: Record<string, RoleConfig> = {
             {
                 id: 4,
                 title: 'Championnats',
-                path: '/dashboard/championships',
-                iconName: 'championships',
+                path: '/dashboard/tournenments',
+                iconName: 'tournenments',
                 svgPath: '/icons/championships.svg',
             },
             {
