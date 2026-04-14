@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/Badge';
 
 export const CTASection = () => {

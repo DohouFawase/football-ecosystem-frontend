@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Loader2, Building2, Phone, Mail, Globe, MapPin, ArrowRight, CheckCircle2, Briefcase } from 'lucide-react';
 import { useOrgs } from "@/context/OrgContext";
 

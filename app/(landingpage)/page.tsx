@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Grid } from '@/components/ui/Grid';
 import { Badge } from '@/components/ui/Badge';
-import { Hero } from '@/components/shared/Hero';
+import { Hero } from '@/components/shared/hero';
 import { CTASection } from '../_components/CTASection';
 import { FAQSection } from '../_components/FAQSection';
 import { FeaturesSection } from '../_components/FeaturesSection';

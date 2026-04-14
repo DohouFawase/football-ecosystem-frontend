@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { CreateOrgModal } from "@/app/_components/CreateOrgModal";
 import { AuthModal } from "@/app/_components/AuthModal";
 

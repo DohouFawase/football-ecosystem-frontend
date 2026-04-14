@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/Badge';
 import { BadgeStatus, ButtonVariant } from '@/types/uiTypes';
 
@@ -138,7 +138,7 @@ export const PricingSection = () => {
                 {/* 3. CTA Action */}
                 <div className="flex justify-end shrink-0">
                   <Button
-                    variant={plan.ctaVariant}
+                    // variant={plan.ctaVariant}
                     className={`rounded-full! h-20 px-12 text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-500
                       ${plan.popular 
                         ? 'bg-slate-900 text-white hover:bg-blue-600 hover:px-16 shadow-2xl shadow-slate-200' 
