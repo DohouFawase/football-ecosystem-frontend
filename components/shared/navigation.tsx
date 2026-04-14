@@ -28,47 +28,40 @@ export const Navbar = () => {
   ];
 
   return (
-    <div className="">
-      <div className="bg-gray-200/2 round">
-        <div className="">
-          <Image src={"/logo.png"} sizes="" alt="IlewQuote" />
-        </div>
-        <div>
-          <nav>
-            <ul>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+ <header className="fixed top-0 inset-x-0 z-50 px-4 py-4">
+      {/* Conteneur interne avec flou pour un effet premium */}
+      <div className="mx-auto max-w-7xl bg-white/70 backdrop-blur-md flex items-center justify-between py-4 px-6 rounded-2xl shadow-sm border border-white/20">
+        
+        {/* Logo */}
+        <Link href="/" className="flex items-end gap-2 text-xl font-bold text-gray-800">
+          <Image src="/logo.png" width={64} height={64} alt="BallOpen" />
+          <p>BallOpen</p>
+        </Link>
 
-        <div className="">
+        {/* Menu */}
+        <nav className="hidden md:block">
+          <ul className="flex gap-8 font-medium text-slate-600">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-blue-600 transition-colors">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Auth Section */}
+        <div className="flex items-center gap-4">
           {isLoggedIn ? (
-            <div className="relative">
-              <Button
-                variant="ghost"
-                className=""
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-              >
-                {user?.name}
-              </Button>
-            </div>
+            <Button variant="ghost">{user?.name}</Button>
           ) : (
-            <Button
-              variant="outline"
-              className=""
-              onClick={() => openAuth("login")}
-            >
+            <Button onClick={() => openAuth("login")} className="">
               Log In
             </Button>
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };

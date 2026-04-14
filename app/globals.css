@@ -130,3 +130,11 @@
     @apply font-sans;
   }
 }
+.bg-hero {
+  /* On définit l'image */
+  background-image: url("/hero.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}

@@ -6,24 +6,25 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/button";
 import { CreateOrgModal } from "@/app/_components/CreateOrgModal";
 import { AuthModal } from "@/app/_components/AuthModal";
+import { useRouter } from "next/navigation";
 
 export const Hero = () => {
   const { isLoggedIn, login } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
-
+   const route = useRouter()
   const openAuth = (mode: "login" | "register") => {
     setAuthMode(mode);
     setIsAuthModalOpen(true);
   };
   return (
-    <section className="relative bg-white pt-24 pb-32 overflow-hidden">
+    <section className="relative pt-32 bg-white h-screen ">
       {/* Background Decor - Un aspect "Tech" avec des cercles et une grille */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -right-[10%] w-[500px] h-[500px] bg-blue-50 rounded-full blur-3xl opacity-50" />
-        <div className="absolute top-[20%] -left-[5%] w-[300px] h-[300px] bg-slate-100 rounded-full blur-2xl opacity-40" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
+        {/* <div className="absolute -top-[10%] -right-[10%] w-[500px] h-[500px] bg-blue-50 rounded-full blur-3xl opacity-50" /> */}
+        {/* <div className="absolute top-[20%] -left-[5%] w-[300px] h-[300px] bg-slate-100 rounded-full blur-2xl opacity-40" /> */}
+        <div className="absolute inset-0 bg-hero  opacity-20"></div>
       </div>
 
       <Container size="xl" className="relative z-10">
@@ -189,8 +190,8 @@ export const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-6 w-full pt-4 animate-in fade-in slide-in-from-bottom-10 delay-300 duration-1000 fill-mode-both">
               <Button
                 size="lg"
-                onClick={() => openAuth("register")}
-                className="px-12 h-16 text-lg bg-blue-600 hover:bg-slate-900 text-white rounded-full border-none transition-all duration-500 transform hover:-translate-y-1 shadow-lg shadow-blue-200"
+                onClick={() => route.push("/login")}
+                className="px-12 h-16 text-lg bg-blue-600 hover:bg-slate-900 text-white rounded-md border-none transition-all duration-500 transform hover:-translate-y-1 shadow-lg shadow-blue-200"
               >
                 Get Started Now
               </Button>
